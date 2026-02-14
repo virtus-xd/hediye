@@ -1555,11 +1555,9 @@
                     }
                 }
             });
-            // Fall death
+            // Fall - respawn at checkpoint
             if (player.y > GAME_H + 50) {
-                player.lives--;
                 sfxDeath();
-                if (player.lives <= 0) { player.lives = 3; player.tickets = 0; tickets.forEach(t => t.collected = false); checkpoints.forEach(c => c.reached = false); player.checkpoint = { x: 60, y: 300 }; }
                 player.x = player.checkpoint.x; player.y = player.checkpoint.y; player.vx = 0; player.vy = 0;
             }
             // Collect tickets
@@ -1766,9 +1764,9 @@
             // HUD
             ctx.fillStyle = 'rgba(0,0,0,0.4)';
             ctx.fillRect(0, 0, GAME_W, 40);
-            // Lives
+            // Lives (infinite)
             ctx.font = '18px serif'; ctx.textAlign = 'left';
-            for (let i = 0; i < player.lives; i++) ctx.fillText('❤️', 10 + i * 25, 28);
+            ctx.fillText('❤️ ∞', 10, 28);
             // Title
             ctx.font = 'bold 14px Montserrat'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
             ctx.fillText('Sana Yolculuk', GAME_W / 2, 26);
