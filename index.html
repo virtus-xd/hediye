@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Erdem ❤️ Nursena - Sevgililer Günü</title>
+    <title>Sana nasıl aşık olduğumun hikayesi</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
     <meta name="description" content="Erdem'den Nursena'ya özel Sevgililer Günü hediyesi">
     <meta property="og:title" content="Sana nasıl aşık olduğumun hikayesi">
     <meta property="og:description" content="Bizim aşk hikayemiz">
@@ -1004,6 +1006,16 @@
                 </div>
             </div>
             <div class="timeline-item">
+                <div class="timeline-icon">🎯</div>
+                <div class="timeline-content">
+                    <div class="date">2024 - 2025</div>
+                    <h3>Beraber Yaptıklarımız</h3>
+                    <p>Yaptığımız her etkinlik, gittiğimiz her yer seninle beraber geçirdiğim her saniye ömrümün en
+                        değerli
+                        vakiti. En sevmediğim şeyler bile seninle dünyanın en eğlenceli şeyine dönüşüyor.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
                 <div class="timeline-icon">💍</div>
                 <div class="timeline-content">
                     <div class="date">2025</div>
@@ -1442,8 +1454,10 @@
             particles = [];
             checkpoints = [
                 { x: 880, y: 340, reached: false, label: 'İlk Buluşma 💕', storyIndex: 0 },
-                { x: 3400, y: 420, reached: false, label: 'Yaz Tatili ☀️', storyIndex: 1 },
-                { x: 5200, y: 420, reached: false, label: "Mersin'e Doğru 🏙️", storyIndex: 2 }
+                { x: 2100, y: 420, reached: false, label: 'Otobüs Yolculuğu 🚌', storyIndex: 1 },
+                { x: 3150, y: 420, reached: false, label: 'Zorluklar 💪', storyIndex: 2 },
+                { x: 3400, y: 420, reached: false, label: 'Yaz Tatili ☀️', storyIndex: 3 },
+                { x: 5200, y: 420, reached: false, label: "Mersin'e Doğru 🏙️", storyIndex: 4 }
             ];
             player.x = 60; player.y = 300; player.vx = 0; player.vy = 0;
             player.lives = 3; player.tickets = 0; player.onGround = false;
@@ -1457,6 +1471,16 @@
                 emoji: '💕',
                 title: 'İlk Buluşma',
                 text: '18 Ocak 2024... Seni ilk gördüğümde dünya durdu.\n Bu andan itibaren kalbim sadece senin için atıyor.',
+            },
+            {
+                emoji: '🚌',
+                title: 'Otobüs Yolculukları',
+                text: 'Kaç saat, kaç otobüs, kaç bilet...\nSana kavuşmak için çıktığım onlarca yolculuğun her seferinde kokuna kavuşma heyecanıyla yanıp tutuştum.',
+            },
+            {
+                emoji: '💪',
+                title: 'Zorluklar',
+                text: 'Uzak mesafe kolay değildi, Çok zor zamanlarımız olsa da.\nSeninle her engeli aştık.\nBu zorluklar bizi daha da güçlendirdi.',
             },
             {
                 emoji: '☀️',
@@ -1751,6 +1775,41 @@
             // Tickets
             ctx.textAlign = 'right'; ctx.font = '14px Montserrat';
             ctx.fillText('🎫 ' + player.tickets + '/' + totalTickets, GAME_W - 15, 26);
+
+            // Progress Bar
+            const barX = 60, barY = 34, barW = GAME_W - 120, barH = 5;
+            const progress = Math.min(player.x / (LEVEL_W - 100), 1);
+            // Track
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            ctx.beginPath();
+            ctx.roundRect(barX, barY, barW, barH, 3);
+            ctx.fill();
+            // Fill
+            const barGrd = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+            barGrd.addColorStop(0, '#FF6B6B');
+            barGrd.addColorStop(1, '#FFD700');
+            ctx.fillStyle = barGrd;
+            ctx.beginPath();
+            ctx.roundRect(barX, barY, barW * progress, barH, 3);
+            ctx.fill();
+            // Checkpoint markers
+            ctx.font = '9px serif'; ctx.textAlign = 'center';
+            checkpoints.forEach(c => {
+                const cx = barX + (c.x / LEVEL_W) * barW;
+                ctx.fillText(c.reached ? '✅' : '⚪', cx, barY + 2);
+            });
+            // End marker
+            ctx.fillText('💖', barX + barW, barY + 2);
+            // Player dot
+            const dotX = barX + progress * barW;
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(dotX, barY + 2.5, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#FF6B6B';
+            ctx.beginPath();
+            ctx.arc(dotX, barY + 2.5, 2.5, 0, Math.PI * 2);
+            ctx.fill();
         }
 
         let reunionStarted = false;
